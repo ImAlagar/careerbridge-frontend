@@ -215,10 +215,10 @@ const Blogs = () => {
                       alt={blog.title}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute top-3 left-3 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                    <div className="absolute top-3 left-3 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-semibold font-poppins">
                       {blog.month} 2025
                     </div>
-                    <div className={`absolute top-3 right-3 ${getTypeColor(blog.type)} text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1`}>
+                    <div className={`absolute top-3 right-3 ${getTypeColor(blog.type)} text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 font-poppins`}>
                       <Icon size={12} />
                       <span>{blog.type.toUpperCase()}</span>
                     </div>
@@ -226,7 +226,7 @@ const Blogs = () => {
                   
                   {/* Content */}
                   <div className="p-4">
-                    <h3 className="text-base font-bold text-gray-900 font-montserrat mb-2 leading-tight">
+                    <h3 className="text-base font-bold text-gray-900 font-poppins mb-2 leading-tight">
                       {blog.title}
                     </h3>
                     <div className="flex items-center gap-2 text-gray-500 text-sm font-lato mb-3">
@@ -234,8 +234,8 @@ const Blogs = () => {
                       <span>{blog.date}</span>
                     </div>
                     <motion.div
-                      whileHover={{ x: 3 }}
-                      className="inline-flex items-center gap-2 text-blue-600 font-semibold cursor-pointer group text-sm"
+                      whileHover={{ x: 3 }} 
+                      className="inline-flex items-center gap-2 text-blue-600 font-semibold cursor-pointer group text-sm font-poppins"
                     >
                       <span>Read More</span>
                       <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -282,7 +282,7 @@ const Blogs = () => {
                           className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                         />
                       </div>
-                      <div className="absolute top-4 left-4 bg-black/60 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                      <div className="absolute top-4 left-4 bg-black/60 text-white px-3 py-1 rounded-full text-sm font-semibold font-poppins">
                         {blog.month} 2025
                       </div>
                     </motion.div>
@@ -302,11 +302,11 @@ const Blogs = () => {
                       whileHover={{ scale: 1.02 }}
                       className={`inline-block ${isEven ? 'text-right' : 'text-left'}`}
                     >
-                      <div className={`${getTypeColor(blog.type)} text-white px-4 py-2 rounded-2xl mb-3 inline-flex items-center gap-2 ${isEven ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`${getTypeColor(blog.type)} text-white px-4 py-2 rounded-2xl mb-3 inline-flex items-center gap-2 ${isEven ? 'justify-end' : 'justify-start'} font-poppins`}>
                         <Icon size={16} />
                         <span className="font-semibold text-sm">{blog.type.toUpperCase()}</span>
                       </div>
-                      <h3 className="text-xl font-bold text-gray-900 font-montserrat mb-2 leading-tight">
+                      <h3 className="text-xl font-bold text-gray-900 font-poppins mb-2 leading-tight">
                         {blog.title}
                       </h3>
                       <div className={`flex items-center gap-2 text-gray-500 text-sm font-lato ${isEven ? 'justify-end' : 'justify-start'}`}>
@@ -315,7 +315,7 @@ const Blogs = () => {
                       </div>
                       <motion.div
                         whileHover={{ x: isEven ? -5 : 5 }}
-                        className={`inline-flex items-center gap-2 text-blue-600 font-semibold cursor-pointer group mt-3 ${isEven ? 'flex-row-reverse' : ''}`}
+                        className={`inline-flex items-center gap-2 text-blue-600 font-semibold cursor-pointer group mt-3 font-poppins ${isEven ? 'flex-row-reverse' : ''}`}
                       >
                         <span>Read More</span>
                         <ArrowRight size={16} className={`transition-transform ${isEven ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
@@ -353,12 +353,11 @@ const Blogs = () => {
                 <Button
                   size="lg"
                   variant="primary"
-                  onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-                  className="bg-white text-blue-600 hover:bg-gray-100 font-semibold text-sm md:text-base w-full sm:w-auto"
+                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="bg-white text-blue-600 hover:bg-gray-100 font-semibold text-sm md:text-base w-full sm:w-auto font-poppins"
                 >
                   Get Personal Timeline
                 </Button>
-
               </div>
             </div>
           </div>

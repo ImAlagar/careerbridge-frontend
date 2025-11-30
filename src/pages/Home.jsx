@@ -108,13 +108,13 @@ const Home = () => {
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
                 <motion.h1
-                  className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 drop-shadow-2xl"
+                  className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 drop-shadow-2xl font-poppins"
                 >
                   {slides[currentSlide].title}
                 </motion.h1>
                 
                 <motion.p
-                  className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto drop-shadow-lg"
+                  className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto drop-shadow-lg font-lato"
                 >
                   {slides[currentSlide].subtitle}
                 </motion.p>
@@ -130,16 +130,16 @@ const Home = () => {
             >
               <Button 
                 size="lg" 
-                onClick={() => document.getElementById('services').scrollIntoView({ behavior: 'smooth' })}
-                className="bg-white text-black hover:bg-gray-100 border-white"
+                onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-white text-black hover:bg-gray-100 border-white font-poppins"
               >
                 Get Started
               </Button>
               <Button 
                 variant="outline" 
                 size="lg"
-                className="text-white border-white hover:bg-white hover:text-black"
-                onClick={() => document.getElementById('about').scrollIntoView({ behavior: 'smooth' })}
+                className="text-white border-white hover:bg-white hover:text-black font-poppins"
+                onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Learn More
               </Button>

@@ -98,7 +98,7 @@ const About = () => {
   };
 
   return (
-    <section id="about" className="min-h-screen px-6  py-20 bg-gradient-to-br from-blue-50/30 via-white to-purple-50/30 relative overflow-hidden">
+    <section id="about" className="min-h-screen px-6 py-20 bg-gradient-to-br from-blue-50/30 via-white to-purple-50/30 relative overflow-hidden">
       
       {/* Floating Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -215,7 +215,7 @@ const About = () => {
                         <Icon size={24} className="text-blue-600" />
                       </motion.div>
                       <div>
-                        <h4 className="font-bold text-gray-900 font-montserrat mb-1">{feature.title}</h4>
+                        <h4 className="font-bold text-gray-900 font-poppins mb-1">{feature.title}</h4>
                         <p className="text-gray-600 text-sm font-lato">{feature.description}</p>
                       </div>
                     </div>
@@ -226,7 +226,7 @@ const About = () => {
 
             {/* Stats */}
             <motion.div variants={itemVariants} className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-              <h3 className="text-xl font-bold text-gray-900 font-montserrat mb-4">Our Impact</h3>
+              <h3 className="text-xl font-bold text-gray-900 font-poppins mb-4">Our Impact</h3>
               <div className="grid grid-cols-2 gap-4">
                 {stats.map((stat, index) => (
                   <motion.div
@@ -248,8 +248,8 @@ const About = () => {
               <Button
                 size="lg"
                 variant="primary"
-                onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 font-semibold flex-1"
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 font-semibold font-poppins flex-1"
               >
                 Book Free Consultation
               </Button>
@@ -285,8 +285,8 @@ const About = () => {
                 <div className="flex items-center space-x-2">
                   <Star className="text-yellow-500" size={20} />
                   <div>
-                    <p className="font-bold text-gray-900 text-sm">Rated 4.9/5</p>
-                    <p className="text-gray-600 text-xs">By 500+ Students</p>
+                    <p className="font-bold text-gray-900 text-sm font-poppins">Rated 4.9/5</p>
+                    <p className="text-gray-600 text-xs font-lato">By 500+ Students</p>
                   </div>
                 </div>
               </motion.div>
@@ -310,7 +310,7 @@ const About = () => {
                 <div className="absolute bottom-4 left-4">
                   <div className="flex items-center space-x-2">
                     <Users size={16} className="text-white" />
-                    <h4 className="text-white font-semibold font-montserrat text-sm">Expert Team</h4>
+                    <h4 className="text-white font-semibold font-poppins text-sm">Expert Team</h4>
                   </div>
                 </div>
               </motion.div>
@@ -328,7 +328,7 @@ const About = () => {
                 <div className="absolute bottom-4 left-4">
                   <div className="flex items-center space-x-2">
                     <Target size={16} className="text-white" />
-                    <h4 className="text-white font-semibold font-montserrat text-sm">Success Stories</h4>
+                    <h4 className="text-white font-semibold font-poppins text-sm">Success Stories</h4>
                   </div>
                 </div>
               </motion.div>
@@ -352,7 +352,7 @@ const About = () => {
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
                     <Target size={16} />
                   </div>
-                  <span className="text-white/80 font-semibold text-sm">CareerBridge Mission</span>
+                  <span className="text-white/80 font-semibold text-sm font-poppins">CareerBridge Mission</span>
                 </div>
               </div>
             </motion.div>

@@ -470,7 +470,7 @@ const Countries = () => {
                     >
                       {country.flag}
                     </motion.span>
-                    <h3 className="text-2xl font-bold font-montserrat">{country.name}</h3>
+                    <h3 className="text-2xl font-bold font-poppins">{country.name}</h3>
                   </div>
 
                   {/* Description */}
@@ -481,16 +481,16 @@ const Countries = () => {
                   {/* Stats */}
                   <div className="flex justify-between text-xs mb-4">
                     <div className="text-center">
-                      <div className="font-bold text-white text-lg">{country.stats.students}</div>
-                      <div className="text-white/70">Students</div>
+                      <div className="font-bold text-white text-lg font-poppins">{country.stats.students}</div>
+                      <div className="text-white/70 font-lato">Students</div>
                     </div>
                     <div className="text-center">
-                      <div className="font-bold text-white text-lg">{country.stats.universities}</div>
-                      <div className="text-white/70">Universities</div>
+                      <div className="font-bold text-white text-lg font-poppins">{country.stats.universities}</div>
+                      <div className="text-white/70 font-lato">Universities</div>
                     </div>
                     <div className="text-center">
-                      <div className="font-bold text-white text-lg">{country.stats.employment}</div>
-                      <div className="text-white/70">Employment</div>
+                      <div className="font-bold text-white text-lg font-poppins">{country.stats.employment}</div>
+                      <div className="text-white/70 font-lato">Employment</div>
                     </div>
                   </div>
 
@@ -499,7 +499,7 @@ const Countries = () => {
                     whileHover={{ x: 5 }}
                     className="flex items-center justify-between pt-3 border-t border-white/30"
                   >
-                    <span className="font-semibold text-sm">Discover More</span>
+                    <span className="font-semibold text-sm font-poppins">Discover More</span>
                     <motion.div
                       animate={{ x: [0, 5, 0] }}
                       transition={{ duration: 2, repeat: Infinity }}
@@ -541,9 +541,8 @@ const Countries = () => {
               <Button
                 size="lg"
                 variant="primary"
-                  onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 font-semibold"
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 font-semibold font-poppins"
               >
                 Book Free Consultation
               </Button>
@@ -604,7 +603,7 @@ const Countries = () => {
                 <div className="grid md:grid-cols-2 gap-8">
                   {/* Highlights */}
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-4 font-montserrat">Why Choose {selectedCountry.name}?</h3>
+                    <h3 className="text-xl font-bold text-gray-900 mb-4 font-poppins">Why Choose {selectedCountry.name}?</h3>
                     <div className="space-y-3">
                       {selectedCountry.highlights.map((highlight, index) => {
                         const Icon = highlight.icon;
@@ -619,7 +618,7 @@ const Countries = () => {
                             <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
                               <Icon size={20} className="text-blue-600" />
                             </div>
-                            <span className="text-gray-700 font-urbanist font-medium">{highlight.text}</span>
+                            <span className="text-gray-700 font-lato font-medium">{highlight.text}</span>
                           </motion.div>
                         );
                       })}
@@ -628,7 +627,7 @@ const Countries = () => {
 
                   {/* Description */}
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-4 font-montserrat">Overview</h3>
+                    <h3 className="text-xl font-bold text-gray-900 mb-4 font-poppins">Overview</h3>
                     <p className="text-gray-600 leading-relaxed font-lato">
                       {selectedCountry.fullDesc}
                     </p>
@@ -637,19 +636,19 @@ const Countries = () => {
 
                 {/* Stats */}
                 <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-100">
-                  <h4 className="text-lg font-bold text-gray-900 mb-4 font-montserrat">Quick Facts</h4>
+                  <h4 className="text-lg font-bold text-gray-900 mb-4 font-poppins">Quick Facts</h4>
                   <div className="grid grid-cols-3 gap-4 text-center">
                     <div>
-                      <div className="text-2xl font-bold text-blue-600">{selectedCountry.stats.students}</div>
-                      <div className="text-sm text-gray-600">International Students</div>
+                      <div className="text-2xl font-bold text-blue-600 font-poppins">{selectedCountry.stats.students}</div>
+                      <div className="text-sm text-gray-600 font-lato">International Students</div>
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-purple-600">{selectedCountry.stats.universities}</div>
-                      <div className="text-sm text-gray-600">Universities</div>
+                      <div className="text-2xl font-bold text-purple-600 font-poppins">{selectedCountry.stats.universities}</div>
+                      <div className="text-sm text-gray-600 font-lato">Universities</div>
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-green-600">{selectedCountry.stats.employment}</div>
-                      <div className="text-sm text-gray-600">Employment Rate</div>
+                      <div className="text-2xl font-bold text-green-600 font-poppins">{selectedCountry.stats.employment}</div>
+                      <div className="text-sm text-gray-600 font-lato">Employment Rate</div>
                     </div>
                   </div>
                 </div>
@@ -659,11 +658,10 @@ const Countries = () => {
                   <Button
                     size="lg"
                     variant="primary"
-                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0"
+                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 font-poppins"
                   >
                     Apply Now
                   </Button>
-
                 </div>
               </div>
             </motion.div>

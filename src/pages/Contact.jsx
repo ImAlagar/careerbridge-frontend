@@ -81,7 +81,6 @@ const Contact = () => {
     setIsSubmitting(true);
     
     try {
-
       // Using Web3Forms for form submission
       const formDataToSubmit = new FormData();
       formDataToSubmit.append("access_key", "865e3526-c590-40a3-97f5-6107fdf04706"); // Replace with your actual key
@@ -216,7 +215,7 @@ const Contact = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-bold text-center mb-4 text-gray-800"
+          className="text-4xl md:text-5xl font-bold text-center mb-4 text-gray-800 font-poppins"
         >
           Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">Touch</span>
         </motion.h2>
@@ -225,7 +224,7 @@ const Contact = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-lg text-center max-w-2xl mx-auto mb-4 text-gray-600"
+          className="text-lg text-center max-w-2xl mx-auto mb-4 text-gray-600 font-lato"
         >
           We're here to help! Contact our customer support team for any questions about your career.
         </motion.p>
@@ -261,10 +260,10 @@ const Contact = () => {
                   <CheckCircle className="w-5 h-5 text-green-600" aria-hidden="true" />
                 </motion.div>
                 <div>
-                  <h3 className="font-semibold text-gray-800">
+                  <h3 className="font-semibold text-gray-800 font-poppins">
                     Customer Support Active
                   </h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 font-lato">
                     Our team is available 24/7 to assist you with any inquiries
                   </p>
                 </div>
@@ -275,7 +274,7 @@ const Contact = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-2xl font-semibold mb-2 text-gray-800"
+              className="text-2xl font-semibold mb-2 text-gray-800 font-poppins"
             >
               Contact Information
             </motion.h3>
@@ -290,7 +289,7 @@ const Contact = () => {
                     initial={{ opacity: 0, x: -30 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                    className="p-4  rounded-xl group cursor-pointer bg-white hover:bg-gray-50 shadow-md hover:shadow-lg transition-all text-left w-full"
+                    className="p-4 rounded-xl group cursor-pointer bg-white hover:bg-gray-50 shadow-md hover:shadow-lg transition-all text-left w-full"
                     whileHover={{ x: 5 }}
                     onClick={() => handleContactClick(item.type, item.value)}
                     aria-label={`Contact via ${item.type}: ${item.value}`}
@@ -298,7 +297,7 @@ const Contact = () => {
                     <div className="flex items-center space-x-4">
                       <motion.div 
                         whileHover={{ scale: 1.1, rotate: 5 }}
-                        className="p-3  rounded-full relative overflow-hidden bg-gray-100 group-hover:bg-purple-100 transition-all flex-shrink-0"
+                        className="p-3 rounded-full relative overflow-hidden bg-gray-100 group-hover:bg-purple-100 transition-all flex-shrink-0"
                       >
                         <motion.div 
                           className="absolute inset-0 rounded-full bg-purple-400/20"
@@ -309,10 +308,10 @@ const Contact = () => {
                         <IconComponent className="w-5 h-5 relative z-10 text-purple-600" aria-hidden="true" />
                       </motion.div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-medium text-gray-800 mb-1">
+                        <p className="font-medium text-gray-800 mb-1 font-poppins">
                           {item.label}
                         </p>
-                        <p className="text-gray-600 break-words">
+                        <p className="text-gray-600 break-words font-lato">
                           {item.value}
                         </p>
                       </div>
@@ -329,7 +328,7 @@ const Contact = () => {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="pt-4"
             >
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">Follow Us</h3>
+              <h3 className="text-xl font-semibold mb-4 text-gray-800 font-poppins">Follow Us</h3>
               <div className="flex space-x-4">
                 {SOCIAL_LINKS.map((social, index) => (
                   <motion.a
@@ -402,7 +401,7 @@ const Contact = () => {
               >
                 <label 
                   htmlFor="name" 
-                  className="block mb-2 font-medium text-gray-800"
+                  className="block mb-2 font-medium text-gray-800 font-poppins"
                 >
                   Your Name *
                 </label>
@@ -412,7 +411,7 @@ const Contact = () => {
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
                   required
-                  className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all ${
+                  className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all font-lato ${
                     formErrors.name ? 'border-red-500' : 'border-gray-300 focus:border-purple-500'
                   }`}
                   placeholder="Enter your full name"
@@ -423,7 +422,7 @@ const Contact = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     id="name-error"
-                    className="mt-1 text-sm text-red-600"
+                    className="mt-1 text-sm text-red-600 font-lato"
                   >
                     {formErrors.name}
                   </motion.p>
@@ -438,7 +437,7 @@ const Contact = () => {
               >
                 <label 
                   htmlFor="email" 
-                  className="block mb-2 font-medium text-gray-800"
+                  className="block mb-2 font-medium text-gray-800 font-poppins"
                 >
                   Your Email *
                 </label>
@@ -448,7 +447,7 @@ const Contact = () => {
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
                   required
-                  className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all ${
+                  className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all font-lato ${
                     formErrors.email ? 'border-red-500' : 'border-gray-300 focus:border-purple-500'
                   }`}
                   placeholder="Enter your email address"
@@ -459,7 +458,7 @@ const Contact = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     id="email-error"
-                    className="mt-1 text-sm text-red-600"
+                    className="mt-1 text-sm text-red-600 font-lato"
                   >
                     {formErrors.email}
                   </motion.p>
@@ -474,7 +473,7 @@ const Contact = () => {
               >
                 <label 
                   htmlFor="subject" 
-                  className="block mb-2 font-medium text-gray-800"
+                  className="block mb-2 font-medium text-gray-800 font-poppins"
                 >
                   Subject *
                 </label>
@@ -484,7 +483,7 @@ const Contact = () => {
                   value={formData.subject}
                   onChange={(e) => handleInputChange('subject', e.target.value)}
                   required
-                  className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all ${
+                  className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all font-lato ${
                     formErrors.subject ? 'border-red-500' : 'border-gray-300 focus:border-purple-500'
                   }`}
                   placeholder="Enter your subject"
@@ -495,7 +494,7 @@ const Contact = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     id="subject-error"
-                    className="mt-1 text-sm text-red-600"
+                    className="mt-1 text-sm text-red-600 font-lato"
                   >
                     {formErrors.subject}
                   </motion.p>
@@ -510,7 +509,7 @@ const Contact = () => {
               >
                 <label 
                   htmlFor="message" 
-                  className="block mb-2 font-medium text-gray-800"
+                  className="block mb-2 font-medium text-gray-800 font-poppins"
                 >
                   Your Message *
                 </label>
@@ -520,7 +519,7 @@ const Contact = () => {
                   value={formData.message}
                   onChange={(e) => handleInputChange('message', e.target.value)}
                   required
-                  className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all ${
+                  className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all font-lato ${
                     formErrors.message ? 'border-red-500' : 'border-gray-300 focus:border-purple-500'
                   }`}
                   placeholder="Please describe your inquiry in detail..."
@@ -531,7 +530,7 @@ const Contact = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     id="message-error"
-                    className="mt-1 text-sm text-red-600"
+                    className="mt-1 text-sm text-red-600 font-lato"
                   >
                     {formErrors.message}
                   </motion.p>
@@ -554,14 +553,14 @@ const Contact = () => {
                 />
                 <label 
                   htmlFor="acceptTerms" 
-                  className="text-sm text-gray-600"
+                  className="text-sm text-gray-600 font-lato"
                 >
                   I agree to the{" "}
-                  <a href="/terms" className="text-purple-600 hover:text-purple-700 underline transition-colors">
+                  <a href="#" className="text-purple-600 hover:text-purple-700 underline transition-colors font-poppins">
                     Terms of Service
                   </a>{" "}
                   and{" "}
-                  <a href="/privacy" className="text-purple-600 hover:text-purple-700 underline transition-colors">
+                  <a href="#" className="text-purple-600 hover:text-purple-700 underline transition-colors font-poppins">
                     Privacy Policy
                   </a>
                   *
@@ -571,7 +570,7 @@ const Contact = () => {
                 <motion.p 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-sm text-red-600 -mt-2"
+                  className="text-sm text-red-600 -mt-2 font-lato"
                 >
                   {formErrors.acceptTerms}
                 </motion.p>
@@ -586,7 +585,7 @@ const Contact = () => {
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium rounded-lg flex items-center justify-center space-x-2 shadow-md hover:shadow-lg transition-all disabled:opacity-80 disabled:cursor-not-allowed"
+                className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium rounded-lg flex items-center justify-center space-x-2 shadow-md hover:shadow-lg transition-all disabled:opacity-80 disabled:cursor-not-allowed font-poppins"
               >
                 {isSubmitting ? (
                   <motion.div
@@ -611,7 +610,7 @@ const Contact = () => {
                   className="p-4 mt-4 rounded-lg bg-green-50 border border-green-200"
                   role="alert"
                 >
-                  <p className="flex items-center space-x-2 text-green-700">
+                  <p className="flex items-center space-x-2 text-green-700 font-lato">
                     <MessageCircle size={18} aria-hidden="true" />
                     <span>Thank you! Our team will get back to you within 2 hours.</span>
                   </p>

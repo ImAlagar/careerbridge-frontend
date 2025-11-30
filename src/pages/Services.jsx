@@ -251,7 +251,7 @@ const Services = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
+            className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 font-poppins"
           >
             Our Services
           </motion.h2>
@@ -260,7 +260,7 @@ const Services = () => {
             variants={textVariants}
             initial="initial"
             whileInView="animate"
-            className="text-xl text-gray-600 max-w-2xl mx-auto"
+            className="text-xl text-gray-600 max-w-2xl mx-auto font-lato"
           >
             Comprehensive support throughout your educational journey abroad
           </motion.p>
@@ -304,11 +304,11 @@ const Services = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 + 0.3 }}
                 >
-                  <h3 className={`text-lg font-semibold mb-3 ${service.textColor}`}>
+                  <h3 className={`text-lg font-semibold mb-3 ${service.textColor} font-poppins`}>
                     {service.title}
                   </h3>
 
-                  <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                  <p className="text-gray-600 text-sm leading-relaxed mb-4 font-lato">
                     {service.description}
                   </p>
 
@@ -316,7 +316,7 @@ const Services = () => {
                   <motion.div
                     animate={{ x: isHovered ? 8 : 0 }}
                     transition={{ duration: 0.3, type: "spring" }}
-                    className={`flex items-center ${service.textColor} text-sm font-medium`}
+                    className={`flex items-center ${service.textColor} text-sm font-medium font-poppins`}
                   >
                     <motion.span
                       animate={{ opacity: isHovered ? 1 : 0.8 }}
@@ -377,8 +377,8 @@ const Services = () => {
             <Button 
               size="lg" 
               variant="primary"
-              onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 shadow-lg hover:shadow-xl"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 shadow-lg hover:shadow-xl font-poppins"
             >
               Get Started Today
             </Button>
