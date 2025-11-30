@@ -83,7 +83,7 @@ const Home = () => {
               <img
                 src={slides[currentSlide].image}
                 alt={slides[currentSlide].title}
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover"
               />
               
               {/* Gradient Overlay */}
