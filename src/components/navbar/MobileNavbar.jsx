@@ -29,10 +29,8 @@ const MobileNavbar = ({
   }, [isOpen]);
 
   const socialItems = [
-    { name: "Facebook", icon: Facebook, href: "#" },
-    { name: "Twitter", icon: Twitter, href: "#" },
-    { name: "Instagram", icon: Instagram, href: "#" },
-    { name: "LinkedIn", icon: Linkedin, href: "#" },
+    { name: "Facebook", icon: Facebook, href: "https://www.facebook.com/careerbridgecouncil" },
+    { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/career_bridge_council/" },
   ];
 
   const sidebarVariants = {
