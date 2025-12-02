@@ -277,16 +277,6 @@ const Footer = () => {
             by our team.
           </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex space-x-6 text-sm"
-          >
-            <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors duration-200" aria-label="Privacy Policy">Privacy Policy</a>
-            <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors duration-200" aria-label="Terms of Service">Terms of Service</a>
-            <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors duration-200" aria-label="Cookie Policy">Cookie Policy</a>
-          </motion.div>
         </div>
       </div>
 

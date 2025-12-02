@@ -24,7 +24,8 @@ const Contact = () => {
     intakeYear: "",
     intakeMonth: "",
     studyCountry: "",
-    acceptTerms: false
+    currentState: "",
+    currentCity: ""
   });
 
   const [showSuccess, setShowSuccess] = useState(false);
@@ -76,11 +77,6 @@ const Contact = () => {
       errors.email = "Please enter a valid email address";
     }
     
-    if (!formData.intakeYear) errors.intakeYear = "Intake year is required";
-    if (!formData.intakeMonth) errors.intakeMonth = "Intake month is required";
-    if (!formData.studyCountry) errors.studyCountry = "Country is required";
-    if (!formData.acceptTerms) errors.acceptTerms = "You must accept the terms and conditions";
-    
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -95,16 +91,15 @@ const Contact = () => {
     setIsSubmitting(true);
     
     try {
-      // Using Web3Forms for form submission
       const formDataToSubmit = new FormData();
-      formDataToSubmit.append("access_key", "7a0948d7-296d-439a-b602-bc53cd306459"); // Replace with your actual key
+      formDataToSubmit.append("access_key", "7a0948d7-296d-439a-b602-bc53cd306459");
       formDataToSubmit.append("student_name", formData.studentName);
       formDataToSubmit.append("phone_number", formData.phoneNumber);
       formDataToSubmit.append("email", formData.email);
       formDataToSubmit.append("intake", `${formData.intakeMonth} ${formData.intakeYear}`);
       formDataToSubmit.append("study_country", formData.studyCountry);
-      
-      // Additional settings
+      formDataToSubmit.append("current_state", formData.currentState);
+      formDataToSubmit.append("current_city", formData.currentCity);
       formDataToSubmit.append("from_name", "CareerBridge Contact Form");
       formDataToSubmit.append("replyto", formData.email);
       formDataToSubmit.append("subject", `New Study Inquiry - ${formData.studentName}`);
@@ -125,7 +120,8 @@ const Contact = () => {
           intakeYear: "",
           intakeMonth: "",
           studyCountry: "",
-          acceptTerms: false 
+          currentState: "",
+          currentCity: ""
         });
         
         setTimeout(() => setShowSuccess(false), 5000);
@@ -136,9 +132,9 @@ const Contact = () => {
       // Fallback: Open email client
       const subject = encodeURIComponent(`Study Inquiry - ${formData.studentName}`);
       const body = encodeURIComponent(
-        `Student Name: ${formData.studentName}\nPhone: ${formData.phoneNumber}\nEmail: ${formData.email}\nIntake: ${formData.intakeMonth} ${formData.intakeYear}\nCountry to Study: ${formData.studyCountry}`
+        `Student Name: ${formData.studentName}\nPhone: ${formData.phoneNumber}\nEmail: ${formData.email}\nIntake: ${formData.intakeMonth} ${formData.intakeYear}\nCountry to Study: ${formData.studyCountry}\nState: ${formData.currentState}\nCity: ${formData.currentCity}`
       );
-      window.location.href = `mailto:your-email@example.com?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:info@careerbridge.com?subject=${subject}&body=${body}`;
     } finally {
       setIsSubmitting(false);
     }
@@ -535,14 +531,13 @@ const Contact = () => {
                     className="block mb-2 font-medium text-gray-800 font-poppins flex items-center gap-2"
                   >
                     <CalendarDays size={16} aria-hidden="true" />
-                    Intake Month *
+                    Intake Month
                   </label>
                   <input
                     type="text"
                     id="intakeMonth"
                     value={formData.intakeMonth}
                     onChange={(e) => handleInputChange('intakeMonth', e.target.value)}
-                    required
                     className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all font-lato ${
                       formErrors.intakeMonth ? 'border-red-500' : 'border-gray-300 focus:border-purple-500'
                     }`}
@@ -572,14 +567,13 @@ const Contact = () => {
                     className="block mb-2 font-medium text-gray-800 font-poppins flex items-center gap-2"
                   >
                     <Calendar size={16} aria-hidden="true" />
-                    Intake Year *
+                    Intake Year
                   </label>
                   <input
                     type="text"
                     id="intakeYear"
                     value={formData.intakeYear}
                     onChange={(e) => handleInputChange('intakeYear', e.target.value)}
-                    required
                     className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all font-lato ${
                       formErrors.intakeYear ? 'border-red-500' : 'border-gray-300 focus:border-purple-500'
                     }`}
@@ -610,14 +604,13 @@ const Contact = () => {
                   className="block mb-2 font-medium text-gray-800 font-poppins flex items-center gap-2"
                 >
                   <Globe size={16} aria-hidden="true" />
-                  Country Intend to Study *
+                  Country Intend to Study
                 </label>
                 <input
                   type="text"
                   id="studyCountry"
                   value={formData.studyCountry}
                   onChange={(e) => handleInputChange('studyCountry', e.target.value)}
-                  required
                   className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all font-lato ${
                     formErrors.studyCountry ? 'border-red-500' : 'border-gray-300 focus:border-purple-500'
                   }`}
@@ -636,50 +629,58 @@ const Contact = () => {
                 )}
               </motion.div>
 
-              {/* Terms and Conditions Checkbox */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.7 }}
-                className="flex items-start space-x-3"
-              >
-                <input
-                  type="checkbox"
-                  id="acceptTerms"
-                  checked={formData.acceptTerms}
-                  onChange={(e) => handleInputChange('acceptTerms', e.target.checked)}
-                  className="mt-1 w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 focus:ring-2"
-                />
-                <label 
-                  htmlFor="acceptTerms" 
-                  className="text-sm text-gray-600 font-lato"
+              {/* Current State and City */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Current State */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.7 }}
                 >
-                  I agree to the{" "}
-                  <a href="#" className="text-purple-600 hover:text-purple-700 underline transition-colors font-poppins">
-                    Terms of Service
-                  </a>{" "}
-                  and{" "}
-                  <a href="#" className="text-purple-600 hover:text-purple-700 underline transition-colors font-poppins">
-                    Privacy Policy
-                  </a>
-                  *
-                </label>
-              </motion.div>
-              {formErrors.acceptTerms && (
-                <motion.p 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-sm text-red-600 -mt-2 font-lato"
+                  <label 
+                    htmlFor="currentState" 
+                    className="block mb-2 font-medium text-gray-800 font-poppins"
+                  >
+                    Current State
+                  </label>
+                  <input
+                    type="text"
+                    id="currentState"
+                    value={formData.currentState}
+                    onChange={(e) => handleInputChange('currentState', e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-800 transition-all focus:border-purple-500 font-lato"
+                    placeholder="Enter your state"
+                  />
+                </motion.div>
+
+                {/* Current City */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.75 }}
                 >
-                  {formErrors.acceptTerms}
-                </motion.p>
-              )}
+                  <label 
+                    htmlFor="currentCity" 
+                    className="block mb-2 font-medium text-gray-800 font-poppins"
+                  >
+                    Current City
+                  </label>
+                  <input
+                    type="text"
+                    id="currentCity"
+                    value={formData.currentCity}
+                    onChange={(e) => handleInputChange('currentCity', e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-800 transition-all focus:border-purple-500 font-lato"
+                    placeholder="Enter your city"
+                  />
+                </motion.div>
+              </div>
 
               {/* Submit Button */}
               <motion.button
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.75 }}
+                transition={{ duration: 0.5, delay: 0.8 }}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
