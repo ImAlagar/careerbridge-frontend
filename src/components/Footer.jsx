@@ -70,7 +70,7 @@ const Footer = () => {
     try {
       // Using Web3Forms for newsletter subscription
       const formDataToSubmit = new FormData();
-      formDataToSubmit.append("access_key", "865e3526-c590-40a3-97f5-6107fdf04706");
+      formDataToSubmit.append("access_key", "7a0948d7-296d-439a-b602-bc53cd306459");
       formDataToSubmit.append("email", newsletterEmail);
       formDataToSubmit.append("subject", "Newsletter Subscription - Footer");
       formDataToSubmit.append("message", `New newsletter subscription from footer: ${newsletterEmail}`);

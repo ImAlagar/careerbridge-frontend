@@ -10,15 +10,20 @@ import {
   ExternalLink,
   Mail,
   Phone,
-  MapPin
+  MapPin,
+  User,
+  Globe,
+  CalendarDays
 } from "lucide-react";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    studentName: "",
+    phoneNumber: "",
     email: "",
-    subject: "",
-    message: "",
+    intakeYear: "",
+    intakeMonth: "",
+    studyCountry: "",
     acceptTerms: false
   });
 
@@ -57,14 +62,23 @@ const Contact = () => {
   const validateForm = () => {
     const errors = {};
     
-    if (!formData.name.trim()) errors.name = "Name is required";
+    if (!formData.studentName.trim()) errors.studentName = "Student name is required";
+    
+    if (!formData.phoneNumber.trim()) {
+      errors.phoneNumber = "Phone number is required";
+    } else if (!/^[\+]?[1-9][\d]{0,15}$/.test(formData.phoneNumber.replace(/\D/g, ''))) {
+      errors.phoneNumber = "Please enter a valid phone number";
+    }
+    
     if (!formData.email.trim()) {
       errors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       errors.email = "Please enter a valid email address";
     }
-    if (!formData.subject.trim()) errors.subject = "Subject is required";
-    if (!formData.message.trim()) errors.message = "Message is required";
+    
+    if (!formData.intakeYear) errors.intakeYear = "Intake year is required";
+    if (!formData.intakeMonth) errors.intakeMonth = "Intake month is required";
+    if (!formData.studyCountry) errors.studyCountry = "Country is required";
     if (!formData.acceptTerms) errors.acceptTerms = "You must accept the terms and conditions";
     
     setFormErrors(errors);
@@ -83,15 +97,17 @@ const Contact = () => {
     try {
       // Using Web3Forms for form submission
       const formDataToSubmit = new FormData();
-      formDataToSubmit.append("access_key", "865e3526-c590-40a3-97f5-6107fdf04706"); // Replace with your actual key
-      formDataToSubmit.append("name", formData.name);
+      formDataToSubmit.append("access_key", "7a0948d7-296d-439a-b602-bc53cd306459"); // Replace with your actual key
+      formDataToSubmit.append("student_name", formData.studentName);
+      formDataToSubmit.append("phone_number", formData.phoneNumber);
       formDataToSubmit.append("email", formData.email);
-      formDataToSubmit.append("subject", formData.subject);
-      formDataToSubmit.append("message", formData.message);
+      formDataToSubmit.append("intake", `${formData.intakeMonth} ${formData.intakeYear}`);
+      formDataToSubmit.append("study_country", formData.studyCountry);
       
       // Additional settings
       formDataToSubmit.append("from_name", "CareerBridge Contact Form");
       formDataToSubmit.append("replyto", formData.email);
+      formDataToSubmit.append("subject", `New Study Inquiry - ${formData.studentName}`);
 
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
@@ -103,10 +119,12 @@ const Contact = () => {
       if (result.success) {
         setShowSuccess(true);
         setFormData({ 
-          name: "", 
-          email: "", 
-          subject: "", 
-          message: "",
+          studentName: "",
+          phoneNumber: "",
+          email: "",
+          intakeYear: "",
+          intakeMonth: "",
+          studyCountry: "",
           acceptTerms: false 
         });
         
@@ -116,9 +134,9 @@ const Contact = () => {
       }
     } catch (error) {
       // Fallback: Open email client
-      const subject = encodeURIComponent(formData.subject);
+      const subject = encodeURIComponent(`Study Inquiry - ${formData.studentName}`);
       const body = encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+        `Student Name: ${formData.studentName}\nPhone: ${formData.phoneNumber}\nEmail: ${formData.email}\nIntake: ${formData.intakeMonth} ${formData.intakeYear}\nCountry to Study: ${formData.studyCountry}`
       );
       window.location.href = `mailto:your-email@example.com?subject=${subject}&body=${body}`;
     } finally {
@@ -226,7 +244,7 @@ const Contact = () => {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-lg text-center max-w-2xl mx-auto mb-4 text-gray-600 font-lato"
         >
-          We're here to help! Contact our customer support team for any questions about your career.
+          We're here to help! Contact our education counselors for guidance on your study abroad journey.
         </motion.p>
 
         {/* Unique Grid Layout */}
@@ -261,10 +279,10 @@ const Contact = () => {
                 </motion.div>
                 <div>
                   <h3 className="font-semibold text-gray-800 font-poppins">
-                    Customer Support Active
+                    Education Counseling Active
                   </h3>
                   <p className="text-sm text-gray-600 font-lato">
-                    Our team is available 24/7 to assist you with any inquiries
+                    Our counselors are available to guide you through your study abroad journey
                   </p>
                 </div>
               </div>
@@ -393,38 +411,76 @@ const Contact = () => {
             }}
           >
             <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-              {/* Name Field */}
+              {/* Student Name Field */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
                 <label 
-                  htmlFor="name" 
-                  className="block mb-2 font-medium text-gray-800 font-poppins"
+                  htmlFor="studentName" 
+                  className="block mb-2 font-medium text-gray-800 font-poppins flex items-center gap-2"
                 >
-                  Your Name *
+                  <User size={16} aria-hidden="true" />
+                  Student Name *
                 </label>
                 <input
                   type="text"
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  id="studentName"
+                  value={formData.studentName}
+                  onChange={(e) => handleInputChange('studentName', e.target.value)}
                   required
                   className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all font-lato ${
-                    formErrors.name ? 'border-red-500' : 'border-gray-300 focus:border-purple-500'
+                    formErrors.studentName ? 'border-red-500' : 'border-gray-300 focus:border-purple-500'
                   }`}
                   placeholder="Enter your full name"
-                  aria-describedby={formErrors.name ? "name-error" : undefined}
+                  aria-describedby={formErrors.studentName ? "studentName-error" : undefined}
                 />
-                {formErrors.name && (
+                {formErrors.studentName && (
                   <motion.p 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    id="name-error"
+                    id="studentName-error"
                     className="mt-1 text-sm text-red-600 font-lato"
                   >
-                    {formErrors.name}
+                    {formErrors.studentName}
+                  </motion.p>
+                )}
+              </motion.div>
+
+              {/* Phone Number Field */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.45 }}
+              >
+                <label 
+                  htmlFor="phoneNumber" 
+                  className="block mb-2 font-medium text-gray-800 font-poppins flex items-center gap-2"
+                >
+                  <Phone size={16} aria-hidden="true" />
+                  Phone Number *
+                </label>
+                <input
+                  type="tel"
+                  id="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
+                  required
+                  className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all font-lato ${
+                    formErrors.phoneNumber ? 'border-red-500' : 'border-gray-300 focus:border-purple-500'
+                  }`}
+                  placeholder="Enter your phone number with country code"
+                  aria-describedby={formErrors.phoneNumber ? "phoneNumber-error" : undefined}
+                />
+                {formErrors.phoneNumber && (
+                  <motion.p 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    id="phoneNumber-error"
+                    className="mt-1 text-sm text-red-600 font-lato"
+                  >
+                    {formErrors.phoneNumber}
                   </motion.p>
                 )}
               </motion.div>
@@ -437,9 +493,10 @@ const Contact = () => {
               >
                 <label 
                   htmlFor="email" 
-                  className="block mb-2 font-medium text-gray-800 font-poppins"
+                  className="block mb-2 font-medium text-gray-800 font-poppins flex items-center gap-2"
                 >
-                  Your Email *
+                  <Mail size={16} aria-hidden="true" />
+                  Email ID *
                 </label>
                 <input
                   type="email"
@@ -465,74 +522,116 @@ const Contact = () => {
                 )}
               </motion.div>
 
-              {/* Subject Field - Input based */}
+              {/* Intake - Year and Month */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Intake Month */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.55 }}
+                >
+                  <label 
+                    htmlFor="intakeMonth" 
+                    className="block mb-2 font-medium text-gray-800 font-poppins flex items-center gap-2"
+                  >
+                    <CalendarDays size={16} aria-hidden="true" />
+                    Intake Month *
+                  </label>
+                  <input
+                    type="text"
+                    id="intakeMonth"
+                    value={formData.intakeMonth}
+                    onChange={(e) => handleInputChange('intakeMonth', e.target.value)}
+                    required
+                    className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all font-lato ${
+                      formErrors.intakeMonth ? 'border-red-500' : 'border-gray-300 focus:border-purple-500'
+                    }`}
+                    placeholder="Enter month (e.g., September)"
+                    aria-describedby={formErrors.intakeMonth ? "intakeMonth-error" : undefined}
+                  />
+                  {formErrors.intakeMonth && (
+                    <motion.p 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      id="intakeMonth-error"
+                      className="mt-1 text-sm text-red-600 font-lato"
+                    >
+                      {formErrors.intakeMonth}
+                    </motion.p>
+                  )}
+                </motion.div>
+
+                {/* Intake Year */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                >
+                  <label 
+                    htmlFor="intakeYear" 
+                    className="block mb-2 font-medium text-gray-800 font-poppins flex items-center gap-2"
+                  >
+                    <Calendar size={16} aria-hidden="true" />
+                    Intake Year *
+                  </label>
+                  <input
+                    type="text"
+                    id="intakeYear"
+                    value={formData.intakeYear}
+                    onChange={(e) => handleInputChange('intakeYear', e.target.value)}
+                    required
+                    className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all font-lato ${
+                      formErrors.intakeYear ? 'border-red-500' : 'border-gray-300 focus:border-purple-500'
+                    }`}
+                    placeholder="Enter year (e.g., 2024)"
+                    aria-describedby={formErrors.intakeYear ? "intakeYear-error" : undefined}
+                  />
+                  {formErrors.intakeYear && (
+                    <motion.p 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      id="intakeYear-error"
+                      className="mt-1 text-sm text-red-600 font-lato"
+                    >
+                      {formErrors.intakeYear}
+                    </motion.p>
+                  )}
+                </motion.div>
+              </div>
+
+              {/* Country Intend to Study */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.55 }}
+                transition={{ duration: 0.5, delay: 0.65 }}
               >
                 <label 
-                  htmlFor="subject" 
-                  className="block mb-2 font-medium text-gray-800 font-poppins"
+                  htmlFor="studyCountry" 
+                  className="block mb-2 font-medium text-gray-800 font-poppins flex items-center gap-2"
                 >
-                  Subject *
+                  <Globe size={16} aria-hidden="true" />
+                  Country Intend to Study *
                 </label>
                 <input
                   type="text"
-                  id="subject"
-                  value={formData.subject}
-                  onChange={(e) => handleInputChange('subject', e.target.value)}
+                  id="studyCountry"
+                  value={formData.studyCountry}
+                  onChange={(e) => handleInputChange('studyCountry', e.target.value)}
                   required
                   className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all font-lato ${
-                    formErrors.subject ? 'border-red-500' : 'border-gray-300 focus:border-purple-500'
+                    formErrors.studyCountry ? 'border-red-500' : 'border-gray-300 focus:border-purple-500'
                   }`}
-                  placeholder="Enter your subject"
-                  aria-describedby={formErrors.subject ? "subject-error" : undefined}
+                  placeholder="Enter country name"
+                  aria-describedby={formErrors.studyCountry ? "studyCountry-error" : undefined}
                 />
-                {formErrors.subject && (
+                {formErrors.studyCountry && (
                   <motion.p 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    id="subject-error"
+                    id="studyCountry-error"
                     className="mt-1 text-sm text-red-600 font-lato"
                   >
-                    {formErrors.subject}
-                  </motion.p>
-                )}
-              </motion.div>
-
-              {/* Message Field */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.6 }}
-              >
-                <label 
-                  htmlFor="message" 
-                  className="block mb-2 font-medium text-gray-800 font-poppins"
-                >
-                  Your Message *
-                </label>
-                <textarea
-                  id="message"
-                  rows={5}
-                  value={formData.message}
-                  onChange={(e) => handleInputChange('message', e.target.value)}
-                  required
-                  className={`w-full px-4 py-3 rounded-lg border bg-gray-50 text-gray-800 transition-all font-lato ${
-                    formErrors.message ? 'border-red-500' : 'border-gray-300 focus:border-purple-500'
-                  }`}
-                  placeholder="Please describe your inquiry in detail..."
-                  aria-describedby={formErrors.message ? "message-error" : undefined}
-                />
-                {formErrors.message && (
-                  <motion.p 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    id="message-error"
-                    className="mt-1 text-sm text-red-600 font-lato"
-                  >
-                    {formErrors.message}
+                    {formErrors.studyCountry}
                   </motion.p>
                 )}
               </motion.div>
@@ -541,7 +640,7 @@ const Contact = () => {
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.65 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
                 className="flex items-start space-x-3"
               >
                 <input
@@ -580,7 +679,7 @@ const Contact = () => {
               <motion.button
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.7 }}
+                transition={{ duration: 0.5, delay: 0.75 }}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
@@ -596,7 +695,7 @@ const Contact = () => {
                   />
                 ) : (
                   <>
-                    <span>Send Message</span>
+                    <span>Submit Inquiry</span>
                     <Send size={18} aria-hidden="true" />
                   </>
                 )}
@@ -612,7 +711,7 @@ const Contact = () => {
                 >
                   <p className="flex items-center space-x-2 text-green-700 font-lato">
                     <MessageCircle size={18} aria-hidden="true" />
-                    <span>Thank you! Our team will get back to you within 2 hours.</span>
+                    <span>Thank you for your inquiry! Our education counselor will contact you within 24 hours.</span>
                   </p>
                 </motion.div>
               )}
