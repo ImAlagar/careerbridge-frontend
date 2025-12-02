@@ -225,7 +225,12 @@ const Home = () => {
               
               {/* Gradient Overlay - Different for slide with form */}
               {slides[currentSlide].showForm ? (
-                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+                <>
+                  {/* Desktop overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent hidden md:block" />
+                  {/* Mobile overlay - form-க்கு better visibility */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/40 md:hidden" />
+                </>
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/40" />
               )}
@@ -238,13 +243,13 @@ const Home = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             {/* For first slide with form */}
             {slides[currentSlide].showForm ? (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                {/* Left Side - Title & Features */}
+              <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 items-center justify-center">
+                {/* Left Side - Title & Features - HIDE ON MOBILE */}
                 <motion.div
                   initial={{ opacity: 0, x: -50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.3 }}
-                  className="text-white pr-8"
+                  className="text-white pr-8 hidden lg:block"
                 >
                   <motion.h1
                     className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 drop-shadow-2xl font-poppins leading-tight"
@@ -267,345 +272,355 @@ const Home = () => {
                   </h2>
                 </motion.div>
 
-                {/* Right Side - Compact Form */}
+                {/* Right Side - Compact Form - FULL WIDTH ON MOBILE */}
                 <motion.div
                   initial={{ opacity: 0, x: 50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.5 }}
-                  className="bg-white rounded-xl p-5 md:p-5 shadow-xl max-w-md mx-auto"
+                  className="bg-white rounded-xl p-5 md:p-5 shadow-xl w-full max-w-md mx-auto"
                   ref={formRef}
                   onMouseEnter={handleFormFocus}
                   onMouseLeave={handleFormBlur}
                 >
-
-            <div className='flex items-center justify-center mt-4'>
-              <h1 className='text-gray-800 text-2xl md:text-3xl font-semibold font-poppins leading-tight'>
-                Start your Study Abroad <br /> 
-                <span className='block text-center font-bungee text-3xl md:text-4xl tracking-wide animate-gradient bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 bg-clip-text text-transparent bg-300%'>
-                  Journey
-                </span>
-              </h1>
-            </div>
-
-                <form 
-                  onSubmit={handleSubmit} 
-                  className="space-y-3 mt-5"
-                  onFocus={handleFormFocus}
-                  onBlur={handleFormBlur}
-                >
-                  {/* Student Name */}
-                  <div className="relative w-full">
-                    <input
-                      type="text"
-                      value={formData.studentName}
-                      onChange={(e) => handleInputChange('studentName', e.target.value)}
-                      onFocus={handleFormFocus}
-                      onBlur={handleFormBlur}
-                      className={`
-                        block w-full px-4 py-3 text-sm bg-white rounded-md border-2
-                        transition-all duration-200 ease-in-out
-                        ${formErrors.studentName 
-                          ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200' 
-                          : 'border-gray-300 hover:border-gray-400'
-                        }
-                        peer
-                      `}
-                      placeholder=" "
-                    />
-                    <label
-                      className={`
-                        absolute left-4 top-3 text-gray-500 text-sm font-lato
-                        pointer-events-none transition-all duration-200
-                        bg-white px-1
-                        peer-placeholder-shown:top-3
-                        peer-placeholder-shown:text-gray-500
-                        peer-focus:-top-2.5
-                        peer-focus:text-xs peer-focus:text-black
-                        ${formData.studentName ? '-top-2.5 text-xs text-black' : ''}
-                      `}
-                    >
-                      Student Name*
-                    </label>
-                    {formErrors.studentName && (
-                      <p className="mt-1 text-xs text-red-600 font-lato">{formErrors.studentName}</p>
-                    )}
+                  {/* Mobile Title - Only shown on mobile */}
+                  <div className="lg:hidden mb-4 text-center">
+                    <h1 className="text-gray-800 text-xl font-semibold font-poppins leading-tight tracking-wide animate-gradient bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 bg-clip-text text-transparent bg-300%">
+                      Start your Study Abroad Journey
+                    </h1>
+                    <p className="text-gray-600 text-sm mt-2 font-lato">
+                      Fill the form to get free consultation
+                    </p>
                   </div>
 
-                  {/* Email */}
-                  <div className="relative w-full">
-                    <input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => handleInputChange('email', e.target.value)}
-                      onFocus={handleFormFocus}
-                      onBlur={handleFormBlur}
-                      className={`
-                        block w-full px-4 py-3 text-sm bg-white rounded-md border-2
-                        transition-all duration-200 ease-in-out
-                        ${formErrors.email 
-                          ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200' 
-                          : 'border-gray-300 hover:border-gray-400 '
-                        }
-                        peer
-                      `}
-                      placeholder=" "
-                    />
-                    <label
-                      className={`
-                        absolute left-4 top-3 text-gray-500 text-sm font-lato
-                        pointer-events-none transition-all duration-200
-                        bg-white px-1
-                        peer-placeholder-shown:top-3
-                        peer-placeholder-shown:text-gray-500
-                        peer-focus:-top-2.5
-                        peer-focus:text-xs peer-focus:text-black
-                        ${formData.email ? '-top-2.5 text-xs text-black' : ''}
-                      `}
-                    >
-                      Enter Email Address*
-                    </label>
-                    {formErrors.email && (
-                      <p className="mt-1 text-xs text-red-600 font-lato">{formErrors.email}</p>
-                    )}
+                  {/* Desktop Title - Hidden on mobile */}
+                  <div className='hidden lg:flex items-center justify-center mt-4'>
+                    <h1 className='text-gray-800 text-2xl md:text-3xl font-semibold font-poppins leading-tight'>
+                      Start your Study Abroad <br /> 
+                      <span className='block text-center font-bungee text-3xl md:text-4xl tracking-wide animate-gradient bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 bg-clip-text text-transparent bg-300%'>
+                        Journey
+                      </span>
+                    </h1>
                   </div>
 
-                  {/* Phone Number */}
-                  <div className="relative w-full">
-                    <input
-                      type="tel"
-                      value={formData.phoneNumber}
-                      onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
-                      onFocus={handleFormFocus}
-                      onBlur={handleFormBlur}
-                      className={`
-                        block w-full px-4 py-3 text-sm bg-white rounded-md border-2
-                        transition-all duration-200 ease-in-out
-                        ${formErrors.phoneNumber 
-                          ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200' 
-                          : 'border-gray-300 hover:border-gray-400'
-                        }
-                        peer
-                      `}
-                      placeholder=" "
-                    />
-                    <label
-                      className={`
-                        absolute left-4 top-3 text-gray-500 text-sm font-lato
-                        pointer-events-none transition-all duration-200
-                        bg-white px-1
-                        peer-placeholder-shown:top-3
-                        peer-placeholder-shown:text-gray-500
-                        peer-focus:-top-2.5
-                        peer-focus:text-xs peer-focus:text-black
-                        ${formData.phoneNumber ? '-top-2.5 text-xs text-black' : ''}
-                      `}
-                    >
-                      Mobile number*
-                    </label>
-                    {formErrors.phoneNumber && (
-                      <p className="mt-1 text-xs text-red-600 font-lato">{formErrors.phoneNumber}</p>
-                    )}
-                  </div>
-
-                  {/* Intake Month & Year */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="relative w-full">
-                    <input
-                      type="text"
-                      value={formData.intakeMonth}
-                      onChange={(e) => handleInputChange('intakeMonth', e.target.value)}
-                      onFocus={handleFormFocus}
-                      onBlur={handleFormBlur}
-                      className="block w-full px-4 py-3 text-sm bg-white rounded-md border-2 border-gray-300
-                        transition-all duration-200 ease-in-out
-                        hover:border-gray-400 
-                        peer"
-                      placeholder=" "
-                    />
-                    <label
-                      className={`
-                        absolute left-4 top-3 text-gray-500 text-sm font-lato
-                        pointer-events-none transition-all duration-200
-                        bg-white px-1
-                        peer-placeholder-shown:top-3
-                        peer-placeholder-shown:text-gray-500
-                        peer-focus:-top-2.5
-                        peer-focus:text-xs peer-focus:text-black
-                        ${formData.intakeMonth ? '-top-2.5 text-xs text-black' : ''}
-                      `}
-                    >
-                      Intake Month
-                    </label>
-                  </div>
-                  
-                  <div className="relative w-full">
-                    <input
-                      type="number"
-                      value={formData.intakeYear}
-                      onChange={(e) => handleInputChange('intakeYear', e.target.value)}
-                      onFocus={handleFormFocus}
-                      onBlur={handleFormBlur}
-                      min="2024"
-                      max="2030"
-                      className="block w-full px-4 py-3 text-sm bg-white rounded-md border-2 border-gray-300
-                        transition-all duration-200 ease-in-out
-                        hover:border-gray-400 
-                        peer appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                      placeholder=" "
-                    />
-                    <label
-                      className={`
-                        absolute left-4 top-3 text-gray-500 text-sm font-lato
-                        pointer-events-none transition-all duration-200
-                        bg-white px-1
-                        peer-placeholder-shown:top-3
-                        peer-placeholder-shown:text-gray-500
-                        peer-focus:-top-2.5
-                        peer-focus:text-xs peer-focus:text-black
-                        ${formData.intakeYear ? '-top-2.5 text-xs text-black' : ''}
-                      `}
-                    >
-                      Intake year
-                    </label>
-                  </div>
-                </div>
-
-                  {/* Country */}
-                  <div className="relative w-full">
-                    <input
-                      type="text"
-                      value={formData.studyCountry}
-                      onChange={(e) => handleInputChange('studyCountry', e.target.value)}
-                      onFocus={handleFormFocus}
-                      onBlur={handleFormBlur}
-                      className="block w-full px-4 py-3 text-sm bg-white rounded-md border-2 border-gray-300
-                        transition-all duration-200 ease-in-out
-                        hover:border-gray-400 
-                        peer"
-                      placeholder=" "
-                    />
-                    <label
-                      className={`
-                        absolute left-4 top-3 text-gray-500 text-sm font-lato
-                        pointer-events-none transition-all duration-200
-                        bg-white px-1
-                        peer-placeholder-shown:top-3
-                        peer-placeholder-shown:text-gray-500
-                        peer-focus:-top-2.5
-                        peer-focus:text-xs peer-focus:text-black
-                        ${formData.studyCountry ? '-top-2.5 text-xs text-black' : ''}
-                      `}
-                    >
-                      Country Intend to Study
-                    </label>
-                  </div>
-
-                  {/* Current State & City */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="relative w-full">
-                      <input
-                        type="text"
-                        value={formData.currentState}
-                        onChange={(e) => handleInputChange('currentState', e.target.value)}
-                        onFocus={handleFormFocus}
-                        onBlur={handleFormBlur}
-                        className="block w-full px-4 py-3 text-sm bg-white rounded-md border-2 border-gray-300
-                          transition-all duration-200 ease-in-out
-                          hover:border-gray-400 
-                          peer"
-                        placeholder=" "
-                      />
-                      <label
-                        className={`
-                          absolute left-4 top-3 text-gray-500 text-sm font-lato
-                          pointer-events-none transition-all duration-200
-                          bg-white px-1
-                          peer-placeholder-shown:top-3
-                          peer-placeholder-shown:text-gray-500
-                          peer-focus:-top-2.5
-                          peer-focus:text-xs peer-focus:text-black
-                          ${formData.currentState ? '-top-2.5 text-xs text-black' : ''}
-                        `}
-                      >
-                        Current State
-                      </label>
-                    </div>
-                    <div className="relative w-full">
-                      <input
-                        type="text"
-                        value={formData.currentCity}
-                        onChange={(e) => handleInputChange('currentCity', e.target.value)}
-                        onFocus={handleFormFocus}
-                        onBlur={handleFormBlur}
-                        className="block w-full px-4 py-3 text-sm bg-white rounded-md border-2 border-gray-300
-                          transition-all duration-200 ease-in-out
-                          hover:border-gray-400 
-                          peer"
-                        placeholder=" "
-                      />
-                      <label
-                        className={`
-                          absolute left-4 top-3 text-gray-500 text-sm font-lato
-                          pointer-events-none transition-all duration-200
-                          bg-white px-1
-                          peer-placeholder-shown:top-3
-                          peer-placeholder-shown:text-gray-500
-                          peer-focus:-top-2.5
-                          peer-focus:text-xs peer-focus:text-black
-                          ${formData.currentCity ? '-top-2.5 text-xs text-black' : ''}
-                        `}
-                      >
-                        Current City
-                      </label>
-                    </div>
-                  </div>
-
-                  {/* Terms Checkbox */}
-                  <div className="flex items-start space-x-2 pt-2" onMouseEnter={handleFormFocus}>
-                    <input
-                      type="checkbox"
-                      id="acceptTerms"
-                      checked={formData.acceptTerms}
-                      onChange={(e) => handleInputChange('acceptTerms', e.target.checked)}
-                      onFocus={handleFormFocus}
-                      onBlur={handleFormBlur}
-                      className="mt-0.5 w-4 h-4 text-blue-600 bg-white border-2 border-gray-300 rounded "
-                    />
-                    <label htmlFor="acceptTerms" className="text-xs text-gray-600 font-lato leading-tight cursor-pointer">
-                      I have read and agreed to terms & privacy policy *
-                    </label>
-                  </div>
-                  {formErrors.acceptTerms && (
-                    <p className="text-xs text-red-600 font-lato mt-1">{formErrors.acceptTerms}</p>
-                  )}
-
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-md text-sm flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transition-all duration-200 ease-in-out disabled:opacity-80 disabled:cursor-not-allowed font-poppins mt-3 hover:scale-[1.02] active:scale-[0.98]"
-                    onMouseEnter={handleFormFocus}
+                  <form 
+                    onSubmit={handleSubmit} 
+                    className="space-y-3 mt-3 lg:mt-5"
+                    onFocus={handleFormFocus}
+                    onBlur={handleFormBlur}
                   >
-                    {isSubmitting ? (
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    ) : (
-                      <>
-                        <span>Book your free consultation</span>
-                        <Send size={14} />
-                      </>
-                    )}
-                  </button>
-
-                  {/* Success Message */}
-                  {showSuccess && (
-                    <div className="p-3 mt-3 rounded-md bg-green-50 border-2 border-green-200 animate-pulse">
-                      <p className="flex items-center space-x-2 text-green-700 text-xs font-lato">
-                        <CheckCircle size={14} />
-                        <span>Submitted! Our counselor will contact you soon.</span>
-                      </p>
+                    {/* Student Name */}
+                    <div className="relative w-full">
+                      <input
+                        type="text"
+                        value={formData.studentName}
+                        onChange={(e) => handleInputChange('studentName', e.target.value)}
+                        onFocus={handleFormFocus}
+                        onBlur={handleFormBlur}
+                        className={`
+                          block w-full px-4 py-3 text-sm bg-white rounded-md border-2
+                          transition-all duration-200 ease-in-out
+                          ${formErrors.studentName 
+                            ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200' 
+                            : 'border-gray-300 hover:border-gray-400'
+                          }
+                          peer
+                        `}
+                        placeholder=" "
+                      />
+                      <label
+                        className={`
+                          absolute left-4 top-3 text-gray-500 text-sm font-lato
+                          pointer-events-none transition-all duration-200
+                          bg-white px-1
+                          peer-placeholder-shown:top-3
+                          peer-placeholder-shown:text-gray-500
+                          peer-focus:-top-2.5
+                          peer-focus:text-xs peer-focus:text-black
+                          ${formData.studentName ? '-top-2.5 text-xs text-black' : ''}
+                        `}
+                      >
+                        Student Name*
+                      </label>
+                      {formErrors.studentName && (
+                        <p className="mt-1 text-xs text-red-600 font-lato">{formErrors.studentName}</p>
+                      )}
                     </div>
-                  )}
-                </form>
+
+                    {/* Email */}
+                    <div className="relative w-full">
+                      <input
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        onFocus={handleFormFocus}
+                        onBlur={handleFormBlur}
+                        className={`
+                          block w-full px-4 py-3 text-sm bg-white rounded-md border-2
+                          transition-all duration-200 ease-in-out
+                          ${formErrors.email 
+                            ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200' 
+                            : 'border-gray-300 hover:border-gray-400 '
+                          }
+                          peer
+                        `}
+                        placeholder=" "
+                      />
+                      <label
+                        className={`
+                          absolute left-4 top-3 text-gray-500 text-sm font-lato
+                          pointer-events-none transition-all duration-200
+                          bg-white px-1
+                          peer-placeholder-shown:top-3
+                          peer-placeholder-shown:text-gray-500
+                          peer-focus:-top-2.5
+                          peer-focus:text-xs peer-focus:text-black
+                          ${formData.email ? '-top-2.5 text-xs text-black' : ''}
+                        `}
+                      >
+                        Enter Email Address*
+                      </label>
+                      {formErrors.email && (
+                        <p className="mt-1 text-xs text-red-600 font-lato">{formErrors.email}</p>
+                      )}
+                    </div>
+
+                    {/* Phone Number */}
+                    <div className="relative w-full">
+                      <input
+                        type="tel"
+                        value={formData.phoneNumber}
+                        onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
+                        onFocus={handleFormFocus}
+                        onBlur={handleFormBlur}
+                        className={`
+                          block w-full px-4 py-3 text-sm bg-white rounded-md border-2
+                          transition-all duration-200 ease-in-out
+                          ${formErrors.phoneNumber 
+                            ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200' 
+                            : 'border-gray-300 hover:border-gray-400'
+                          }
+                          peer
+                        `}
+                        placeholder=" "
+                      />
+                      <label
+                        className={`
+                          absolute left-4 top-3 text-gray-500 text-sm font-lato
+                          pointer-events-none transition-all duration-200
+                          bg-white px-1
+                          peer-placeholder-shown:top-3
+                          peer-placeholder-shown:text-gray-500
+                          peer-focus:-top-2.5
+                          peer-focus:text-xs peer-focus:text-black
+                          ${formData.phoneNumber ? '-top-2.5 text-xs text-black' : ''}
+                        `}
+                      >
+                        Mobile number*
+                      </label>
+                      {formErrors.phoneNumber && (
+                        <p className="mt-1 text-xs text-red-600 font-lato">{formErrors.phoneNumber}</p>
+                      )}
+                    </div>
+
+                    {/* Intake Month & Year */}
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="relative w-full">
+                        <input
+                          type="text"
+                          value={formData.intakeMonth}
+                          onChange={(e) => handleInputChange('intakeMonth', e.target.value)}
+                          onFocus={handleFormFocus}
+                          onBlur={handleFormBlur}
+                          className="block w-full px-4 py-3 text-sm bg-white rounded-md border-2 border-gray-300
+                            transition-all duration-200 ease-in-out
+                            hover:border-gray-400 
+                            peer"
+                          placeholder=" "
+                        />
+                        <label
+                          className={`
+                            absolute left-4 top-3 text-gray-500 text-sm font-lato
+                            pointer-events-none transition-all duration-200
+                            bg-white px-1
+                            peer-placeholder-shown:top-3
+                            peer-placeholder-shown:text-gray-500
+                            peer-focus:-top-2.5
+                            peer-focus:text-xs peer-focus:text-black
+                            ${formData.intakeMonth ? '-top-2.5 text-xs text-black' : ''}
+                          `}
+                        >
+                          Intake Month
+                        </label>
+                      </div>
+                      
+                      <div className="relative w-full">
+                        <input
+                          type="number"
+                          value={formData.intakeYear}
+                          onChange={(e) => handleInputChange('intakeYear', e.target.value)}
+                          onFocus={handleFormFocus}
+                          onBlur={handleFormBlur}
+                          min="2024"
+                          max="2030"
+                          className="block w-full px-4 py-3 text-sm bg-white rounded-md border-2 border-gray-300
+                            transition-all duration-200 ease-in-out
+                            hover:border-gray-400 
+                            peer appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                          placeholder=" "
+                        />
+                        <label
+                          className={`
+                            absolute left-4 top-3 text-gray-500 text-sm font-lato
+                            pointer-events-none transition-all duration-200
+                            bg-white px-1
+                            peer-placeholder-shown:top-3
+                            peer-placeholder-shown:text-gray-500
+                            peer-focus:-top-2.5
+                            peer-focus:text-xs peer-focus:text-black
+                            ${formData.intakeYear ? '-top-2.5 text-xs text-black' : ''}
+                          `}
+                        >
+                          Intake year
+                        </label>
+                      </div>
+                    </div>
+
+                    {/* Country */}
+                    <div className="relative w-full">
+                      <input
+                        type="text"
+                        value={formData.studyCountry}
+                        onChange={(e) => handleInputChange('studyCountry', e.target.value)}
+                        onFocus={handleFormFocus}
+                        onBlur={handleFormBlur}
+                        className="block w-full px-4 py-3 text-sm bg-white rounded-md border-2 border-gray-300
+                          transition-all duration-200 ease-in-out
+                          hover:border-gray-400 
+                          peer"
+                        placeholder=" "
+                      />
+                      <label
+                        className={`
+                          absolute left-4 top-3 text-gray-500 text-sm font-lato
+                          pointer-events-none transition-all duration-200
+                          bg-white px-1
+                          peer-placeholder-shown:top-3
+                          peer-placeholder-shown:text-gray-500
+                          peer-focus:-top-2.5
+                          peer-focus:text-xs peer-focus:text-black
+                          ${formData.studyCountry ? '-top-2.5 text-xs text-black' : ''}
+                        `}
+                      >
+                        Country Intend to Study
+                      </label>
+                    </div>
+
+                    {/* Current State & City */}
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="relative w-full">
+                        <input
+                          type="text"
+                          value={formData.currentState}
+                          onChange={(e) => handleInputChange('currentState', e.target.value)}
+                          onFocus={handleFormFocus}
+                          onBlur={handleFormBlur}
+                          className="block w-full px-4 py-3 text-sm bg-white rounded-md border-2 border-gray-300
+                            transition-all duration-200 ease-in-out
+                            hover:border-gray-400 
+                            peer"
+                          placeholder=" "
+                        />
+                        <label
+                          className={`
+                            absolute left-4 top-3 text-gray-500 text-sm font-lato
+                            pointer-events-none transition-all duration-200
+                            bg-white px-1
+                            peer-placeholder-shown:top-3
+                            peer-placeholder-shown:text-gray-500
+                            peer-focus:-top-2.5
+                            peer-focus:text-xs peer-focus:text-black
+                            ${formData.currentState ? '-top-2.5 text-xs text-black' : ''}
+                          `}
+                        >
+                          Current State
+                        </label>
+                      </div>
+                      <div className="relative w-full">
+                        <input
+                          type="text"
+                          value={formData.currentCity}
+                          onChange={(e) => handleInputChange('currentCity', e.target.value)}
+                          onFocus={handleFormFocus}
+                          onBlur={handleFormBlur}
+                          className="block w-full px-4 py-3 text-sm bg-white rounded-md border-2 border-gray-300
+                            transition-all duration-200 ease-in-out
+                            hover:border-gray-400 
+                            peer"
+                          placeholder=" "
+                        />
+                        <label
+                          className={`
+                            absolute left-4 top-3 text-gray-500 text-sm font-lato
+                            pointer-events-none transition-all duration-200
+                            bg-white px-1
+                            peer-placeholder-shown:top-3
+                            peer-placeholder-shown:text-gray-500
+                            peer-focus:-top-2.5
+                            peer-focus:text-xs peer-focus:text-black
+                            ${formData.currentCity ? '-top-2.5 text-xs text-black' : ''}
+                          `}
+                        >
+                          Current City
+                        </label>
+                      </div>
+                    </div>
+
+                    {/* Terms Checkbox */}
+                    <div className="flex items-start space-x-2 pt-2" onMouseEnter={handleFormFocus}>
+                      <input
+                        type="checkbox"
+                        id="acceptTerms"
+                        checked={formData.acceptTerms}
+                        onChange={(e) => handleInputChange('acceptTerms', e.target.checked)}
+                        onFocus={handleFormFocus}
+                        onBlur={handleFormBlur}
+                        className="mt-0.5 w-4 h-4 text-blue-600 bg-white border-2 border-gray-300 rounded "
+                      />
+                      <label htmlFor="acceptTerms" className="text-xs text-gray-600 font-lato leading-tight cursor-pointer">
+                        I have read and agreed to terms & privacy policy *
+                      </label>
+                    </div>
+                    {formErrors.acceptTerms && (
+                      <p className="text-xs text-red-600 font-lato mt-1">{formErrors.acceptTerms}</p>
+                    )}
+
+                    {/* Submit Button */}
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-md text-sm flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transition-all duration-200 ease-in-out disabled:opacity-80 disabled:cursor-not-allowed font-poppins mt-3 hover:scale-[1.02] active:scale-[0.98]"
+                      onMouseEnter={handleFormFocus}
+                    >
+                      {isSubmitting ? (
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <>
+                          <span>Book your free consultation</span>
+                          <Send size={14} />
+                        </>
+                      )}
+                    </button>
+
+                    {/* Success Message */}
+                    {showSuccess && (
+                      <div className="p-3 mt-3 rounded-md bg-green-50 border-2 border-green-200 animate-pulse">
+                        <p className="flex items-center space-x-2 text-green-700 text-xs font-lato">
+                          <CheckCircle size={14} />
+                          <span>Submitted! Our counselor will contact you soon.</span>
+                        </p>
+                      </div>
+                    )}
+                  </form>
 
                 </motion.div>
               </div>
