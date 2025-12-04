@@ -45,12 +45,26 @@ const Footer = () => {
   ];
 
   const contactInfo = [
-    { icon: Mail, text: 'info@careerbridgecouncil.com', label: 'Email Address' },
-    { icon: Phone, text: '8072395200', label: 'Phone Number' },
+    { 
+      icon: Mail, 
+      text: 'info@careerbridgecouncil.com', 
+      label: 'Email Address',
+      href: 'mailto:info@careerbridgecouncil.com',
+      clickable: true
+    },
+    { 
+      icon: Phone, 
+      text: '8072395200', 
+      label: 'Phone Number',
+      href: 'tel:+918072395200',
+      clickable: true
+    },
     { 
       icon: MapPin, 
       text: 'Old No 25, New No 59, Srinivasa Perumal Sannadhi 1st St, Ganapathy Colony, Royapettah, Chennai, Tamil Nadu 600014', 
-      label: 'Address' 
+      label: 'Address',
+      href: 'https://maps.google.com/?q=Old+No+25,+New+No+59,+Srinivasa+Perumal+Sannadhi+1st+St,+Ganapathy+Colony,+Royapettah,+Chennai,+Tamil+Nadu+600014',
+      clickable: true
     },
   ];
 
@@ -246,16 +260,20 @@ const Footer = () => {
               {contactInfo.map((item, index) => {
                 const Icon = item.icon;
                 return (
-                  <motion.div 
+                  <motion.a 
                     key={index}
+                    href={item.href}
+                    target={item.icon === MapPin ? "_blank" : "_self"}
+                    rel={item.icon === MapPin ? "noopener noreferrer" : ""}
                     whileHover={{ x: 5 }}
-                    className="flex items-start space-x-3 text-gray-600"
+                    className="flex items-start space-x-3 text-gray-600 hover:text-blue-600 transition-colors duration-200 cursor-pointer group"
+                    aria-label={item.label}
                   >
-                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-1 rounded-lg mt-1">
+                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-1 rounded-lg mt-1 group-hover:scale-110 transition-transform duration-200">
                       <Icon size={16} className="text-white" aria-hidden="true" />
                     </div>
-                    <span className="text-sm leading-relaxed" aria-label={item.label}>{item.text}</span>
-                  </motion.div>
+                    <span className="text-sm leading-relaxed">{item.text}</span>
+                  </motion.a>
                 );
               })}
             </div>
