@@ -81,64 +81,69 @@ const Contact = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
-    
-    setIsSubmitting(true);
-    
-    try {
-      const formDataToSubmit = new FormData();
-      formDataToSubmit.append("access_key", "7a0948d7-296d-439a-b602-bc53cd306459");
-      formDataToSubmit.append("student_name", formData.studentName);
-      formDataToSubmit.append("phone_number", formData.phoneNumber);
-      formDataToSubmit.append("email", formData.email);
-      formDataToSubmit.append("intake", `${formData.intakeMonth} ${formData.intakeYear}`);
-      formDataToSubmit.append("study_country", formData.studyCountry);
-      formDataToSubmit.append("current_state", formData.currentState);
-      formDataToSubmit.append("current_city", formData.currentCity);
-      formDataToSubmit.append("from_name", "CareerBridge Contact Form");
-      formDataToSubmit.append("replyto", formData.email);
-      formDataToSubmit.append("subject", `New Study Inquiry - ${formData.studentName}`);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  if (!validateForm()) {
+    return;
+  }
+  
+  setIsSubmitting(true);
+  
+  try {
+    const formDataToSubmit = new FormData();
+    formDataToSubmit.append("access_key", "7a0948d7-296d-439a-b602-bc53cd306459");
+    formDataToSubmit.append("student_name", formData.studentName);
+    formDataToSubmit.append("phone_number", formData.phoneNumber);
+    formDataToSubmit.append("email", formData.email);
+    formDataToSubmit.append("intake", `${formData.intakeMonth} ${formData.intakeYear}`);
+    formDataToSubmit.append("study_country", formData.studyCountry);
+    formDataToSubmit.append("current_state", formData.currentState);
+    formDataToSubmit.append("current_city", formData.currentCity);
+    formDataToSubmit.append("from_name", "CareerBridge Contact Form");
+    formDataToSubmit.append("replyto", formData.email);
+    formDataToSubmit.append("subject", `New Study Inquiry - ${formData.studentName}`);
 
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formDataToSubmit
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formDataToSubmit
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      // Save form data to localStorage
+      localStorage.setItem('formSubmissionData', JSON.stringify(formData));
+      
+      // Reset form
+      setFormData({ 
+        studentName: "",
+        phoneNumber: "",
+        email: "",
+        intakeYear: "",
+        intakeMonth: "",
+        studyCountry: "",
+        currentState: "",
+        currentCity: ""
       });
-
-      const result = await response.json();
-
-      if (result.success) {
-        setShowSuccess(true);
-        setFormData({ 
-          studentName: "",
-          phoneNumber: "",
-          email: "",
-          intakeYear: "",
-          intakeMonth: "",
-          studyCountry: "",
-          currentState: "",
-          currentCity: ""
-        });
-        
-        setTimeout(() => setShowSuccess(false), 5000);
-      } else {
-        throw new Error("Form submission failed");
-      }
-    } catch (error) {
-      // Fallback: Open email client
-      const subject = encodeURIComponent(`Study Inquiry - ${formData.studentName}`);
-      const body = encodeURIComponent(
-        `Student Name: ${formData.studentName}\nPhone: ${formData.phoneNumber}\nEmail: ${formData.email}\nIntake: ${formData.intakeMonth} ${formData.intakeYear}\nCountry to Study: ${formData.studyCountry}\nState: ${formData.currentState}\nCity: ${formData.currentCity}`
-      );
-      window.location.href = `mailto:info@careerbridge.com?subject=${subject}&body=${body}`;
-    } finally {
-      setIsSubmitting(false);
+      
+      // Navigate to thank you page
+      window.location.href = '/thank-you';
+    } else {
+      throw new Error("Form submission failed");
     }
-  };
+  } catch (error) {
+    console.error("Form submission error:", error);
+    // Fallback: Open email client
+    const subject = encodeURIComponent(`Study Inquiry - ${formData.studentName}`);
+    const body = encodeURIComponent(
+      `Student Name: ${formData.studentName}\nPhone: ${formData.phoneNumber}\nEmail: ${formData.email}\nIntake: ${formData.intakeMonth} ${formData.intakeYear}\nCountry to Study: ${formData.studyCountry}\nState: ${formData.currentState}\nCity: ${formData.currentCity}`
+    );
+    window.open(`mailto:info@careerbridge.com?subject=${subject}&body=${body}`, '_blank');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const handleContactClick = (type, value) => {
     switch (type) {

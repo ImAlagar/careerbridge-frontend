@@ -1,27 +1,23 @@
 // App.jsx
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import About from './pages/About';
-import Services from './pages/Services';
-import Countries from './pages/Countries';
-import Blogs from './pages/Blogs';
-import Contact from './pages/Contact';
+import MainPage from './pages/MainPage';  // New component that contains all sections
+import ThankYou from './pages/ThankYou';
 import Footer from './components/Footer';
-
 
 function App() {
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      <Home />
-      <About />
-      <Services />
-      <Countries />
-      <Blogs />
-      <Contact />
-      <Footer />
-    </div>
+    <Router>
+      <div className="min-h-screen">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/thank-you" element={<ThankYou />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 

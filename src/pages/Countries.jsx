@@ -15,9 +15,9 @@ const Countries = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollContainerRef = useRef(null);
-  const autoScrollRef = useRef(null);
+  
+  // Refs for form inputs
+  const sliderRef = useRef(null);
 
   const countries = [
     {
@@ -118,61 +118,22 @@ const Countries = () => {
     }
   ];
 
-  // Auto-scroll functionality
-  useEffect(() => {
-    if (!isAutoScrolling) return;
-
-    autoScrollRef.current = setInterval(() => {
-      setCurrentIndex(prev => {
-        const nextIndex = (prev + 1) % countries.length;
-        
-        if (scrollContainerRef.current) {
-          const scrollAmount = nextIndex * 320; // card width + gap
-          scrollContainerRef.current.scrollTo({
-            left: scrollAmount,
-            behavior: 'smooth'
-          });
-        }
-        
-        return nextIndex;
-      });
-    }, 4000); // Scroll every 4 seconds
-
-    return () => {
-      if (autoScrollRef.current) {
-        clearInterval(autoScrollRef.current);
-      }
-    };
-  }, [isAutoScrolling, countries.length]);
+  // Create an array with duplicates for seamless looping
+  const sliderCountries = [...countries, ...countries];
 
   const toggleAutoScroll = () => {
     setIsAutoScrolling(!isAutoScrolling);
   };
 
   const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      const newIndex = currentIndex > 0 ? currentIndex - 1 : countries.length - 1;
-      setCurrentIndex(newIndex);
-      scrollContainerRef.current.scrollBy({ left: -320, behavior: 'smooth' });
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({ left: -320, behavior: 'smooth' });
     }
   };
 
   const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      const newIndex = (currentIndex + 1) % countries.length;
-      setCurrentIndex(newIndex);
-      scrollContainerRef.current.scrollBy({ left: 320, behavior: 'smooth' });
-    }
-  };
-
-  const scrollToIndex = (index) => {
-    if (scrollContainerRef.current) {
-      setCurrentIndex(index);
-      const scrollAmount = index * 320;
-      scrollContainerRef.current.scrollTo({
-        left: scrollAmount,
-        behavior: 'smooth'
-      });
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({ left: 320, behavior: 'smooth' });
     }
   };
 
@@ -180,7 +141,6 @@ const Countries = () => {
     setSelectedCountry(country);
     setIsModalOpen(true);
     document.body.style.overflow = 'hidden';
-    // Pause auto-scroll when modal opens
     setIsAutoScrolling(false);
   };
 
@@ -188,42 +148,7 @@ const Countries = () => {
     setIsModalOpen(false);
     setSelectedCountry(null);
     document.body.style.overflow = 'unset';
-    // Resume auto-scroll when modal closes
     setIsAutoScrolling(true);
-  };
-
-  // Handle scroll events to update current index
-  const handleScroll = () => {
-    if (scrollContainerRef.current) {
-      const scrollLeft = scrollContainerRef.current.scrollLeft;
-      const newIndex = Math.round(scrollLeft / 320);
-      setCurrentIndex(newIndex);
-    }
-  };
-
-  // Floating animation variants
-  const floatingVariants = {
-    float: {
-      y: [-10, 10, -10],
-      x: [0, 5, 0],
-      transition: {
-        duration: 4,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
-  };
-
-  const pulseVariants = {
-    pulse: {
-      scale: [1, 1.05, 1],
-      opacity: [0.7, 1, 0.7],
-      transition: {
-        duration: 3,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
   };
 
   const cardVariants = {
@@ -254,26 +179,23 @@ const Countries = () => {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Floating Globes */}
         <motion.div
-          variants={floatingVariants}
-          animate="float"
+          animate={{ y: [-10, 10, -10], x: [0, 5, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-20 left-10 w-24 h-24 bg-blue-200/20 rounded-full backdrop-blur-sm"
         />
         <motion.div
-          variants={floatingVariants}
-          animate="float"
-          transition={{ delay: 1 }}
+          animate={{ y: [-10, 10, -10], x: [0, 5, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
           className="absolute top-32 right-20 w-16 h-16 bg-purple-200/20 rounded-full backdrop-blur-sm"
         />
         <motion.div
-          variants={floatingVariants}
-          animate="float"
-          transition={{ delay: 2 }}
+          animate={{ y: [-10, 10, -10], x: [0, 5, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 2 }}
           className="absolute bottom-40 left-20 w-20 h-20 bg-green-200/20 rounded-full backdrop-blur-sm"
         />
         <motion.div
-          variants={floatingVariants}
-          animate="float"
-          transition={{ delay: 3 }}
+          animate={{ y: [-10, 10, -10], x: [0, 5, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 3 }}
           className="absolute bottom-20 right-10 w-12 h-12 bg-orange-200/20 rounded-full backdrop-blur-sm"
         />
 
@@ -325,14 +247,13 @@ const Countries = () => {
 
         {/* Pulsing Elements */}
         <motion.div
-          variants={pulseVariants}
-          animate="pulse"
+          animate={{ scale: [1, 1.05, 1], opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-10 right-40 w-8 h-8 bg-cyan-300/20 rounded-full"
         />
         <motion.div
-          variants={pulseVariants}
-          animate="pulse"
-          transition={{ delay: 1.5 }}
+          animate={{ scale: [1, 1.05, 1], opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
           className="absolute bottom-10 left-40 w-6 h-6 bg-pink-300/20 rounded-full"
         />
       </div>
@@ -378,149 +299,231 @@ const Countries = () => {
         </motion.div>
 
         {/* Navigation Controls */}
-        <div className="flex justify-between items-center mb-8">
-          <div className="flex items-center gap-4">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={scrollLeft}
-              className="p-3 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 hover:border-blue-300 text-gray-600 hover:text-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
-              aria-label="Scroll left"
-            >
-              <ChevronLeft size={24} />
-            </motion.button>
-            
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={toggleAutoScroll}
-              className="p-3 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 hover:border-blue-300 text-gray-600 hover:text-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
-              aria-label={isAutoScrolling ? "Pause auto-scroll" : "Play auto-scroll"}
-            >
-              {isAutoScrolling ? <Pause size={20} /> : <Play size={20} />}
-            </motion.button>
-            
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={scrollRight}
-              className="p-3 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 hover:border-blue-300 text-gray-600 hover:text-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
-              aria-label="Scroll right"
-            >
-              <ChevronRight size={24} />
-            </motion.button>
-          </div>
-
-          {/* Progress Indicators */}
-          <div className="flex items-center gap-2">
-            {countries.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => scrollToIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex 
-                    ? 'bg-blue-600 scale-125' 
-                    : 'bg-gray-300 hover:bg-gray-400'
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
+        <div className="flex justify-center items-center mb-8 gap-4">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={scrollLeft}
+            className="p-3 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 hover:border-blue-300 text-gray-600 hover:text-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+            aria-label="Scroll left"
+          >
+            <ChevronLeft size={24} />
+          </motion.button>
+          
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={toggleAutoScroll}
+            className="p-3 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 hover:border-blue-300 text-gray-600 hover:text-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+            aria-label={isAutoScrolling ? "Pause auto-scroll" : "Play auto-scroll"}
+          >
+            {isAutoScrolling ? <Pause size={20} /> : <Play size={20} />}
+          </motion.button>
+          
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={scrollRight}
+            className="p-3 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 hover:border-blue-300 text-gray-600 hover:text-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+            aria-label="Scroll right"
+          >
+            <ChevronRight size={24} />
+          </motion.button>
         </div>
 
-        {/* Horizontal Scrolling Container */}
-        <div 
-          ref={scrollContainerRef}
-          onScroll={handleScroll}
-          className="flex space-x-6 pb-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory cursor-grab active:cursor-grabbing"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {countries.map((country, index) => (
+        {/* Continuous Marquee Slider */}
+        <div className="relative w-full overflow-hidden">
+          {isAutoScrolling ? (
             <motion.div
-              key={country.id}
-              variants={cardVariants}
-              initial="initial"
-              whileInView="animate"
-              whileHover="hover"
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="flex-shrink-0 w-80 snap-center"
+              className="flex gap-6 py-4"
+              animate={{ x: ["0%", "-100%"] }}
+              transition={{
+                ease: "linear",
+                duration: 40,
+                repeat: Infinity,
+              }}
             >
-              <div 
-                className="relative h-96 rounded-3xl overflow-hidden cursor-pointer group bg-white shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100"
-                onClick={() => openModal(country)}
-              >
-                {/* Background Image */}
-                <div className="absolute inset-0">
-                  <img 
-                    src={country.image} 
-                    alt={country.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                </div>
-
-                {/* Content */}
-                <div className="relative z-10 h-full flex flex-col justify-end text-white p-6">
-                  {/* Flag and Name */}
-                  <div className="flex items-center space-x-3 mb-3">
-                    <motion.span 
-                      className="text-3xl"
-                      whileHover={{ scale: 1.2, rotate: 5 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
-                      {country.flag}
-                    </motion.span>
-                    <h3 className="text-2xl font-bold font-poppins">{country.name}</h3>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-white/90 text-sm font-lato leading-relaxed mb-4">
-                    {country.shortDesc}
-                  </p>
-
-                  {/* Stats */}
-                  <div className="flex justify-between text-xs mb-4">
-                    <div className="text-center">
-                      <div className="font-bold text-white text-lg font-poppins">{country.stats.students}</div>
-                      <div className="text-white/70 font-lato">Students</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="font-bold text-white text-lg font-poppins">{country.stats.universities}</div>
-                      <div className="text-white/70 font-lato">Universities</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="font-bold text-white text-lg font-poppins">{country.stats.employment}</div>
-                      <div className="text-white/70 font-lato">Employment</div>
-                    </div>
-                  </div>
-
-                  {/* CTA */}
-                  <motion.div
-                    whileHover={{ x: 5 }}
-                    className="flex items-center justify-between pt-3 border-t border-white/30"
-                  >
-                    <span className="font-semibold text-sm font-poppins">Discover More</span>
-                    <motion.div
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      <ArrowRight size={18} />
-                    </motion.div>
-                  </motion.div>
-                </div>
-
-                {/* Color Accent */}
-                <div className={`absolute top-0 left-0 w-2 h-full bg-${country.color}-500`} />
-
-                {/* Hover Effect */}
+              {sliderCountries.map((country, index) => (
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 transition-opacity duration-300"
-                />
-              </div>
+                  key={`${country.id}-${index}`}
+                  variants={cardVariants}
+                  initial="initial"
+                  animate="animate"
+                  whileHover="hover"
+                  className="flex-shrink-0 w-80"
+                >
+                  <div 
+                    className="relative h-96 rounded-3xl overflow-hidden cursor-pointer group bg-white shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100"
+                    onClick={() => openModal(country)}
+                  >
+                    {/* Background Image */}
+                    <div className="absolute inset-0">
+                      <img 
+                        src={country.image} 
+                        alt={country.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    </div>
+
+                    {/* Content */}
+                    <div className="relative z-10 h-full flex flex-col justify-end text-white p-6">
+                      {/* Flag and Name */}
+                      <div className="flex items-center space-x-3 mb-3">
+                        <motion.span 
+                          className="text-3xl"
+                          whileHover={{ scale: 1.2, rotate: 5 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          {country.flag}
+                        </motion.span>
+                        <h3 className="text-2xl font-bold font-poppins">{country.name}</h3>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-white/90 text-sm font-lato leading-relaxed mb-4">
+                        {country.shortDesc}
+                      </p>
+
+                      {/* Stats */}
+                      <div className="flex justify-between text-xs mb-4">
+                        <div className="text-center">
+                          <div className="font-bold text-white text-lg font-poppins">{country.stats.students}</div>
+                          <div className="text-white/70 font-lato">Students</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="font-bold text-white text-lg font-poppins">{country.stats.universities}</div>
+                          <div className="text-white/70 font-lato">Universities</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="font-bold text-white text-lg font-poppins">{country.stats.employment}</div>
+                          <div className="text-white/70 font-lato">Employment</div>
+                        </div>
+                      </div>
+
+                      {/* CTA */}
+                      <motion.div
+                        whileHover={{ x: 5 }}
+                        className="flex items-center justify-between pt-3 border-t border-white/30"
+                      >
+                        <span className="font-semibold text-sm font-poppins">Discover More</span>
+                        <motion.div
+                          animate={{ x: [0, 5, 0] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        >
+                          <ArrowRight size={18} />
+                        </motion.div>
+                      </motion.div>
+                    </div>
+
+                    {/* Color Accent */}
+                    <div className={`absolute top-0 left-0 w-2 h-full bg-${country.color}-500`} />
+
+                    {/* Hover Effect */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 1 }}
+                      className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 transition-opacity duration-300"
+                    />
+                  </div>
+                </motion.div>
+              ))}
             </motion.div>
-          ))}
+          ) : (
+            // Manual scroll container when auto-scroll is off
+            <div 
+              ref={sliderRef}
+              className="flex gap-6 py-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory cursor-grab active:cursor-grabbing"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {countries.map((country, index) => (
+                <motion.div
+                  key={country.id}
+                  variants={cardVariants}
+                  initial="initial"
+                  whileInView="animate"
+                  whileHover="hover"
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="flex-shrink-0 w-80 snap-center"
+                >
+                  <div 
+                    className="relative h-96 rounded-3xl overflow-hidden cursor-pointer group bg-white shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100"
+                    onClick={() => openModal(country)}
+                  >
+                    {/* Background Image */}
+                    <div className="absolute inset-0">
+                      <img 
+                        src={country.image} 
+                        alt={country.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    </div>
+
+                    {/* Content */}
+                    <div className="relative z-10 h-full flex flex-col justify-end text-white p-6">
+                      {/* Flag and Name */}
+                      <div className="flex items-center space-x-3 mb-3">
+                        <motion.span 
+                          className="text-3xl"
+                          whileHover={{ scale: 1.2, rotate: 5 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          {country.flag}
+                        </motion.span>
+                        <h3 className="text-2xl font-bold font-poppins">{country.name}</h3>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-white/90 text-sm font-lato leading-relaxed mb-4">
+                        {country.shortDesc}
+                      </p>
+
+                      {/* Stats */}
+                      <div className="flex justify-between text-xs mb-4">
+                        <div className="text-center">
+                          <div className="font-bold text-white text-lg font-poppins">{country.stats.students}</div>
+                          <div className="text-white/70 font-lato">Students</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="font-bold text-white text-lg font-poppins">{country.stats.universities}</div>
+                          <div className="text-white/70 font-lato">Universities</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="font-bold text-white text-lg font-poppins">{country.stats.employment}</div>
+                          <div className="text-white/70 font-lato">Employment</div>
+                        </div>
+                      </div>
+
+                      {/* CTA */}
+                      <motion.div
+                        whileHover={{ x: 5 }}
+                        className="flex items-center justify-between pt-3 border-t border-white/30"
+                      >
+                        <span className="font-semibold text-sm font-poppins">Discover More</span>
+                        <motion.div
+                          animate={{ x: [0, 5, 0] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        >
+                          <ArrowRight size={18} />
+                        </motion.div>
+                      </motion.div>
+                    </div>
+
+                    {/* Color Accent */}
+                    <div className={`absolute top-0 left-0 w-2 h-full bg-${country.color}-500`} />
+
+                    {/* Hover Effect */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 1 }}
+                      className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 transition-opacity duration-300"
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* CTA Section */}

@@ -1,13 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Button from '../components/Button';
 import { Send, CheckCircle } from 'lucide-react';
 import FloatingInput from '../components/FloatingInput';
+import { useNavigate } from 'react-router-dom'; // Add this import
 
 // Import only the first image
 import image1 from "../assets/images/canada.jpg";
 
 const Home = () => {
+  const navigate = useNavigate(); // Add this hook
   const [formData, setFormData] = useState({
     studentName: "",
     phoneNumber: "",
@@ -19,7 +20,6 @@ const Home = () => {
     currentCity: "",
   });
   const [formErrors, setFormErrors] = useState({});
-  const [showSuccess, setShowSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Refs for form inputs
@@ -85,7 +85,10 @@ const Home = () => {
       const result = await response.json();
 
       if (result.success) {
-        setShowSuccess(true);
+        // Save form data to localStorage
+        localStorage.setItem('formSubmissionData', JSON.stringify(formData));
+        
+        // Reset form
         setFormData({ 
           studentName: "",
           phoneNumber: "",
@@ -97,11 +100,13 @@ const Home = () => {
           currentCity: "",
         });
         
-        setTimeout(() => setShowSuccess(false), 5000);
+        // Redirect to thank you page
+        navigate('/thank-you');
       } else {
         throw new Error("Form submission failed");
       }
     } catch (error) {
+      // Fallback: Open email client
       const subject = encodeURIComponent(`Study Inquiry - ${formData.studentName}`);
       const body = encodeURIComponent(
         `Student Name: ${formData.studentName}\nPhone: ${formData.phoneNumber}\nEmail: ${formData.email}\nIntake: ${formData.intakeMonth} ${formData.intakeYear}\nCountry to Study: ${formData.studyCountry}\nState: ${formData.currentState}\nCity: ${formData.currentCity}`
@@ -111,6 +116,8 @@ const Home = () => {
       setIsSubmitting(false);
     }
   };
+
+  // Remove showSuccess state and success message from JSX since we're redirecting
 
   return (
     <section id="home" className="min-h-screen relative overflow-hidden pt-16">
@@ -258,25 +265,6 @@ const Home = () => {
                       onChange={(v) => handleInputChange("currentCity", v)}
                     />
                   </div>
-
-                  {/* Success Message */}
-                  <AnimatePresence>
-                    {showSuccess && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="bg-green-50 border border-green-200 rounded-md p-3"
-                      >
-                        <div className="flex items-center">
-                          <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
-                          <span className="text-green-700 text-sm">
-                            Thank you! Our team will contact you shortly.
-                          </span>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
 
                   {/* Submit */}
                   <button
